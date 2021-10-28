@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="en-us"></html>
+<html lang="en-us">
+  <head>
+    <title>View and Dine Randomizer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>View Dine Randomizer</h1>
+    </header>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container"> 
-      <header>
-          <h1>View Dine Randomizer</h1>
-          <form>
-              <label for="myear"> Movie Year:
-              </label><br>
-              <input type="text" id="myear"
-              year="myear"><br>
-              <input type="button" id="bt" value="Save date to file" onclick="saveFile()" />
-          </form>
+    <!-- Form container -->
+    <div class="container">
+      <form>
+        <label for="m-year">Movie Year:</label><br />
+        <input type="text" id="m-year" name="m-year" /><br />
+        <button type="submit" id="randomize-button">Randomize</button>
+      </form>
     </div>
-    <button id ="clickme">Randomize</button>
-    <div id="displayme"></div>
- <div class="hero"></div>
- <div class="content">
-    <h2>Your Movie</h2>
 
-    <h2>Dinner Options</h2>
+    <!-- Content Container -->
+    <section class="content">
+      <div id="movie-container">
+        <h2>Your Movie</h2>
+      </div>
 
-    <h3>Save Pairings</h3>
- </div> 
-    
-  
- </div>
-</body>
+      <div id="dinner-container">
+        <h2>Dinner Options</h2>
+      </div>
+
+      <button id="save-button">Save Pairing</button>
+    </section>
+
+    <!-- Saved Pairings Container-->
+    <div id="saved-pairings-container">
+      <h3>Pairings</h3>
+    </div>
+  </body>
+</html>
