@@ -33,7 +33,6 @@ var getMoviesByYear = function (year) {
           })
           .then(function () {
             if (moviesArray.length === 5) {
-              console.log(moviesArray);
               renderRandomMovies(moviesArray);
             }
           });
