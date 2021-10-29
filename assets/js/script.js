@@ -2,7 +2,7 @@
 var movieContainerEl = document.getElementById("movie-container");
 
 // base URLs
-var OMDB_DISCOVER =
+var TMDB_DISCOVER =
   "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef";
 
 var EDAMAM_RECIPES =
@@ -11,10 +11,7 @@ var EDAMAM_RECIPES =
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
   // first call to get number of pages
-  fetch(
-    "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef&include_adult=false&region=US&year=" +
-      year
-  )
+  fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
     .then(function (response) {
       return response.json();
     })
@@ -24,7 +21,8 @@ var getMoviesByYear = function (year) {
       for (var i = 0; i < 5; i++) {
         var page = Math.floor(Math.random() * data.total_pages + 1);
         fetch(
-          "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef&include_adult=false&region=US&year=" +
+          TMDB_DISCOVER +
+            "&include_adult=false&region=US&year=" +
             year +
             "&page=" +
             page
@@ -67,10 +65,10 @@ var renderRandomMovies = function (moviesArray) {
   movieContainerEl.appendChild(movieButtonContainerEl);
 };
 // TODO: attach to event listener
-//getMoviesByYear(2000);
+getMoviesByYear(2000);
 
 /* 
-We will need a set an array of different foods or dish types that we can randomly select from to put in the function as arguments
+will need a set an array of different foods or dish types that we can randomly select from to put in the function as arguments
 */
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -83,4 +81,4 @@ var getRandomRecipe = function (food) {
     });
 };
 // TODO: attach to event listener
-// getRandomRecipe("chicken");
+getRandomRecipe("chicken");
