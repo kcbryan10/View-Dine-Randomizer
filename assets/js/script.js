@@ -1,6 +1,13 @@
 // important DOM elements
 var movieContainerEl = document.getElementById("movie-container");
 
+// base URLs
+var OMDB_DISCOVER =
+  "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef";
+
+var EDAMAM_RECIPES =
+  "https://api.edamam.com/api/recipes/v2?app_id=902dbf54&app_key=9d8e41e1bea3b6670c9e1ca016fd4be4&type=public&random=true";
+
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
   // first call to get number of pages
@@ -59,4 +66,21 @@ var renderRandomMovies = function (moviesArray) {
   // render to the DOM
   movieContainerEl.appendChild(movieButtonContainerEl);
 };
-getMoviesByYear(2000);
+// TODO: attach to event listener
+//getMoviesByYear(2000);
+
+/* 
+We will need a set an array of different foods or dish types that we can randomly select from to put in the function as arguments
+*/
+// fetch random recipe
+var getRandomRecipe = function (food) {
+  fetch(EDAMAM_RECIPES + "&q=" + food)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+    });
+};
+// TODO: attach to event listener
+// getRandomRecipe("chicken");
