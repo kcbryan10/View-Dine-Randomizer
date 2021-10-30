@@ -1,5 +1,6 @@
 // important DOM elements
 var movieContainerEl = document.getElementById("movie-container");
+var dinnerContainerEl = document.getElementById("dinner-container");
 
 // base URLs
 var TMDB_DISCOVER =
@@ -10,6 +11,8 @@ var EDAMAM_RECIPES =
 
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
+  // TODO: user input verification
+
   // first call to get number of pages
   fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
     .then(function (response) {
@@ -65,20 +68,57 @@ var renderRandomMovies = function (moviesArray) {
   movieContainerEl.appendChild(movieButtonContainerEl);
 };
 // TODO: attach to event listener
-getMoviesByYear(2000);
+// getMoviesByYear(2000);
 
-/* 
-will need a set an array of different foods or dish types that we can randomly select from to put in the function as arguments
-*/
 // fetch random recipe
 var getRandomRecipe = function (food) {
+  var foodsArray = [
+    "pasta",
+    "risotto",
+    "salad",
+    "bread",
+    "curry",
+    "vegetable",
+    "soup",
+    "antipasti",
+    "roast",
+    "bbq",
+    "stew",
+    "pizza",
+    "sandwich",
+    "wrap",
+    "meatball",
+  ];
+
+  // if no input, randomly select query from foodsArray
+  if (!food) {
+    food = foodsArray[Math.floor(Math.random() * foodsArray.length)];
+  }
   fetch(EDAMAM_RECIPES + "&q=" + food)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
+      var numOfHits = data.hits.length;
+      var recipeButtonContainerEl = document.createElement("div");
+
+      // if 5 or less hits in the response, loop through, otherwise loop 5 times
+      if (numOfHits > 5) {
+        numOfHits = 5;
+      }
+
+      // create buttons and append
+      for (var i = 0; i < numOfHits; i++) {
+        var recipe = data.hits[i].recipe;
+        var recipeButtonEl = document.createElement("button");
+
+        recipeButtonEl.setAttribute("data-label", recipe.label);
+        recipeButtonEl.innerText = recipe.label;
+
+        recipeButtonContainerEl.appendChild(recipeButtonEl);
+      }
+      dinnerContainerEl.append(recipeButtonContainerEl);
     });
 };
 // TODO: attach to event listener
-getRandomRecipe("chicken");
+// getRandomRecipe();
