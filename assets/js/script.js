@@ -1,10 +1,13 @@
 // important DOM elements
-var movieContainerEl = document.getElementById("movie-options-list");
-var dinnerContainerEl = document.getElementById("dinner-options-list");
+var movieOptionsContainer = document.getElementById("movie-options-list");
+var dinnerOptionsContainer = document.getElementById("dinner-options-list");
 
 // base URLs
-var TMDB_DISCOVER =
-  "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef";
+var TMDB_KEY = "api_key=28589eaa3f119e982da41302aa616aef";
+
+var TMDB_DISCOVER = "https://api.themoviedb.org/3/discover/movie?" + TMDB_KEY;
+
+var TMDB_MOVIE = "https://api.themoviedb.org/3/movie/";
 
 var EDAMAM_RECIPES =
   "https://api.edamam.com/api/recipes/v2?app_id=902dbf54&app_key=9d8e41e1bea3b6670c9e1ca016fd4be4&type=public&random=true";
@@ -41,6 +44,7 @@ var getMoviesByYear = function (year) {
           })
           .then(function () {
             if (moviesArray.length === 5) {
+              console.log(moviesArray);
               renderRandomMovies(moviesArray);
             }
           });
@@ -61,18 +65,18 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.setAttribute("class", "tab");
 
     var movieAnchorEl = document.createElement("a");
-    movieAnchorEl.setAttribute("data-title", movie.title);
+    movieAnchorEl.setAttribute("data-movie-id", movie.id);
     movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
     movieAnchorEl.innerText = movie.title;
 
     movieListItemEl.appendChild(movieAnchorEl);
 
     // render to the DOM
-    movieContainerEl.appendChild(movieListItemEl);
+    movieOptionsContainer.appendChild(movieListItemEl);
   }
 };
 // TODO: attach to event listener
-getMoviesByYear(2000);
+//getMoviesByYear(2000);
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -127,9 +131,71 @@ var getRandomRecipe = function (food) {
         recipeButtonEl.innerText = recipe.label;
 
         recipesListItemEl.appendChild(recipeButtonEl);
-        dinnerContainerEl.append(recipesListItemEl);
+        dinnerOptionsContainer.append(recipesListItemEl);
       }
     });
 };
 // TODO: attach to event listener
-getRandomRecipe();
+//getRandomRecipe();
+
+var getMovieInfo = function (movieId) {
+  fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      // store genres
+      var genres = [];
+      for (var i = 0; i < data.genres.length; i++) {
+        genres.push(data.genres[i].name);
+      }
+
+      // store year
+      var year = data.release_date.split("-")[0];
+
+      // package needed info for rendering
+      var movieInfo = {
+        title: data.title,
+        genre: genres,
+        year: year,
+        overview: data.overview,
+        imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
+      };
+
+      displayMovieInfo(movieInfo);
+    });
+};
+
+var displayMovieInfo = function (movieInfo) {
+  var contentContainerEl = document.getElementById("movie-details-container");
+
+  var movieTitleEl = document.createElement("h3");
+  movieTitleEl.innerText = movieInfo.title;
+
+  var movieYearEl = document.createElement("span");
+  movieYearEl.innerText = movieInfo.year;
+
+  var movieGenreEl = document.createElement("span");
+  movieGenreEl.innerText = movieInfo.genre.map(function (genre) {
+    return " " + genre;
+  });
+
+  var movieImageEl = document.createElement("img");
+  movieImageEl.setAttribute("src", movieInfo.imgSrc);
+
+  var movieOverviewEl = document.createElement("p");
+  movieOverviewEl.innerText = movieInfo.overview;
+
+  contentContainerEl.append(
+    movieTitleEl,
+    movieYearEl,
+    movieGenreEl,
+    movieImageEl,
+    movieOverviewEl
+  );
+};
+// TODO: attach event listener
+// getMovieInfo(293811);
