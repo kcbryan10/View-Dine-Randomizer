@@ -1,0 +1,26 @@
+::placeholder {
+  color: white;
+  font-style: normal;
+  opacity: 1;
+  /* FIREFOX */
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: red;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: red;
+}
+
+.options-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.options-list li {
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}

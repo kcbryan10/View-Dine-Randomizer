@@ -1,6 +1,6 @@
 // important DOM elements
-var movieContainerEl = document.getElementById("movie-container");
-var dinnerContainerEl = document.getElementById("dinner-container");
+var movieContainerEl = document.getElementById("movie-options-list");
+var dinnerContainerEl = document.getElementById("dinner-options-list");
 
 // base URLs
 var TMDB_DISCOVER =
@@ -51,24 +51,28 @@ var getMoviesByYear = function (year) {
 // render the movie options
 var renderRandomMovies = function (moviesArray) {
   // container for the buttons
-  var movieButtonContainerEl = document.createElement("div");
-  movieButtonContainerEl.setAttribute("id", "movie-button-container");
 
   // create and append the buttons
   for (var i = 0; i < moviesArray.length; i++) {
     var movie = moviesArray[i];
-    var movieButtonEl = document.createElement("button");
-    movieButtonEl.setAttribute("data-title", movie.title);
-    movieButtonEl.innerText = movie.title;
 
-    movieButtonContainerEl.appendChild(movieButtonEl);
+    var movieListItemEl = document.createElement("li");
+    movieListItemEl.setAttribute("id", "movie-button-item");
+    movieListItemEl.setAttribute("class", "tab");
+
+    var movieAnchorEl = document.createElement("a");
+    movieAnchorEl.setAttribute("data-title", movie.title);
+    movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
+    movieAnchorEl.innerText = movie.title;
+
+    movieListItemEl.appendChild(movieAnchorEl);
+
+    // render to the DOM
+    movieContainerEl.appendChild(movieListItemEl);
   }
-
-  // render to the DOM
-  movieContainerEl.appendChild(movieButtonContainerEl);
 };
 // TODO: attach to event listener
-// getMoviesByYear(2000);
+getMoviesByYear(2000);
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -110,15 +114,22 @@ var getRandomRecipe = function (food) {
       // create buttons and append
       for (var i = 0; i < numOfHits; i++) {
         var recipe = data.hits[i].recipe;
-        var recipeButtonEl = document.createElement("button");
 
+        var recipesListItemEl = document.createElement("li");
+        recipesListItemEl.setAttribute("class", "tab");
+
+        var recipeButtonEl = document.createElement("a");
+        recipeButtonEl.setAttribute(
+          "class",
+          "waves-effect waves-light btn-small"
+        );
         recipeButtonEl.setAttribute("data-label", recipe.label);
         recipeButtonEl.innerText = recipe.label;
 
-        recipeButtonContainerEl.appendChild(recipeButtonEl);
+        recipesListItemEl.appendChild(recipeButtonEl);
+        dinnerContainerEl.append(recipesListItemEl);
       }
-      dinnerContainerEl.append(recipeButtonContainerEl);
     });
 };
 // TODO: attach to event listener
-// getRandomRecipe();
+getRandomRecipe();
