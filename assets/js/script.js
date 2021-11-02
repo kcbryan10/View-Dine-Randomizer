@@ -2,6 +2,7 @@
 var movieContainerEl = document.getElementById("movie-options-list");
 var dinnerContainerEl = document.getElementById("dinner-options-list");
 var userInput = document.getElementById("userinput");
+var submitEl = document.getElementById("submit");
 
 // base URLs
 var TMDB_DISCOVER =
@@ -74,7 +75,7 @@ var renderRandomMovies = function (moviesArray) {
   }
 };
 // TODO: attach to event listener
-userInput.addEventListener("submit",getMoviesByYear());
+submitEl.addEventListener("submit",getMoviesByYear());
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -134,4 +135,4 @@ var getRandomRecipe = function (food) {
     });
 };
 // TODO: attach to event listener
-document.getElementById("submit").addEventListener("click", getRandomRecipe());
+submitEl.addEventListener("click", getRandomRecipe());
