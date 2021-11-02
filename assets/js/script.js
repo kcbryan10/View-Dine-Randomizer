@@ -112,6 +112,9 @@ var getSelectedMovieInfo = function (movieId) {
 var displayMovieInfo = function (movieInfo) {
   var contentContainerEl = document.getElementById("movie-details-container");
 
+  // clear previous content
+  contentContainerEl.innerHTML = "";
+
   var movieTitleEl = document.createElement("h3");
   movieTitleEl.innerText = movieInfo.title;
 
@@ -200,11 +203,9 @@ var getRandomRecipe = function (food) {
 
 var movieSelectedHandler = function (event) {
   // check if it is a valid click
-  console.log(event.target.dataset);
   if (!event.target.dataset.movieid) {
     return;
   }
-  console.log("made it");
   getSelectedMovieInfo(event.target.dataset.movieid);
 };
 movieOptionsContainer.addEventListener("click", movieSelectedHandler);
