@@ -1,6 +1,7 @@
 // important DOM elements
 var movieContainerEl = document.getElementById("movie-options-list");
 var dinnerContainerEl = document.getElementById("dinner-options-list");
+var userInput = document.getElementById("userinput");
 
 // base URLs
 var TMDB_DISCOVER =
@@ -12,6 +13,7 @@ var EDAMAM_RECIPES =
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
   // TODO: user input verification
+  var year = userInput.value.trim();
 
   // first call to get number of pages
   fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
@@ -72,7 +74,7 @@ var renderRandomMovies = function (moviesArray) {
   }
 };
 // TODO: attach to event listener
-getMoviesByYear(2000);
+document.getElementById("submit").addEventListener("click",getMoviesByYear());
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
