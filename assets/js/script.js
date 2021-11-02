@@ -44,7 +44,6 @@ var getMoviesByYear = function (year) {
           })
           .then(function () {
             if (moviesArray.length === 5) {
-              console.log(moviesArray);
               renderRandomMovies(moviesArray);
             }
           });
@@ -65,7 +64,7 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.setAttribute("class", "tab");
 
     var movieAnchorEl = document.createElement("a");
-    movieAnchorEl.setAttribute("data-movie-id", movie.id);
+    movieAnchorEl.setAttribute("data-movieid", movie.id);
     movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
     movieAnchorEl.innerText = movie.title;
 
@@ -76,7 +75,68 @@ var renderRandomMovies = function (moviesArray) {
   }
 };
 // TODO: attach to event listener
-//getMoviesByYear(2000);
+getMoviesByYear(2000);
+
+// when a user clicks on a movie title button
+var getSelectedMovieInfo = function (movieId) {
+  fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      // store genres
+      var genres = [];
+      for (var i = 0; i < data.genres.length; i++) {
+        genres.push(data.genres[i].name);
+      }
+
+      // store year
+      var year = data.release_date.split("-")[0];
+
+      // package needed info for rendering
+      var movieInfo = {
+        title: data.title,
+        genre: genres,
+        year: year,
+        overview: data.overview,
+        imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
+      };
+
+      displayMovieInfo(movieInfo);
+    });
+};
+
+var displayMovieInfo = function (movieInfo) {
+  var contentContainerEl = document.getElementById("movie-details-container");
+
+  var movieTitleEl = document.createElement("h3");
+  movieTitleEl.innerText = movieInfo.title;
+
+  var movieYearEl = document.createElement("span");
+  movieYearEl.innerText = movieInfo.year;
+
+  var movieGenreEl = document.createElement("span");
+  movieGenreEl.innerText = movieInfo.genre.map(function (genre) {
+    return " " + genre;
+  });
+
+  var movieImageEl = document.createElement("img");
+  movieImageEl.setAttribute("src", movieInfo.imgSrc);
+
+  var movieOverviewEl = document.createElement("p");
+  movieOverviewEl.innerText = movieInfo.overview;
+
+  contentContainerEl.append(
+    movieTitleEl,
+    movieYearEl,
+    movieGenreEl,
+    movieImageEl,
+    movieOverviewEl
+  );
+};
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -138,64 +198,13 @@ var getRandomRecipe = function (food) {
 // TODO: attach to event listener
 //getRandomRecipe();
 
-var getSelectedMovieInfo = function (movieId) {
-  fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
-    .then(function (response) {
-      if (response.ok) {
-        return response.json();
-      }
-    })
-    .then(function (data) {
-      console.log(data);
-      // store genres
-      var genres = [];
-      for (var i = 0; i < data.genres.length; i++) {
-        genres.push(data.genres[i].name);
-      }
-
-      // store year
-      var year = data.release_date.split("-")[0];
-
-      // package needed info for rendering
-      var movieInfo = {
-        title: data.title,
-        genre: genres,
-        year: year,
-        overview: data.overview,
-        imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
-      };
-
-      displayMovieInfo(movieInfo);
-    });
+var movieSelectedHandler = function (event) {
+  // check if it is a valid click
+  console.log(event.target.dataset);
+  if (!event.target.dataset.movieid) {
+    return;
+  }
+  console.log("made it");
+  getSelectedMovieInfo(event.target.dataset.movieid);
 };
-
-var displayMovieInfo = function (movieInfo) {
-  var contentContainerEl = document.getElementById("movie-details-container");
-
-  var movieTitleEl = document.createElement("h3");
-  movieTitleEl.innerText = movieInfo.title;
-
-  var movieYearEl = document.createElement("span");
-  movieYearEl.innerText = movieInfo.year;
-
-  var movieGenreEl = document.createElement("span");
-  movieGenreEl.innerText = movieInfo.genre.map(function (genre) {
-    return " " + genre;
-  });
-
-  var movieImageEl = document.createElement("img");
-  movieImageEl.setAttribute("src", movieInfo.imgSrc);
-
-  var movieOverviewEl = document.createElement("p");
-  movieOverviewEl.innerText = movieInfo.overview;
-
-  contentContainerEl.append(
-    movieTitleEl,
-    movieYearEl,
-    movieGenreEl,
-    movieImageEl,
-    movieOverviewEl
-  );
-};
-// TODO: attach event listener
-// getSelectedMovieInfo(293811);
+movieOptionsContainer.addEventListener("click", movieSelectedHandler);
