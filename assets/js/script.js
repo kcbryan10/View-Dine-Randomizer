@@ -135,8 +135,8 @@ var getRandomRecipe = function (food) {
 getRandomRecipe();
 
 //save generated pair on button click
-var movietitle= document.getElementById("1");
-var recipeName= document.getElementById("2");
+var movietitle= recipe.label;
+var recipeName= movie.title;
 var pair= [movietitle, recipeName];
 
 var savePair = function(){

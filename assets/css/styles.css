@@ -24,3 +24,8 @@
   margin-right: 1rem;
   margin-bottom: 0.5rem;
 }
+
+#TMDB-logo {
+  max-width: 20%;
+  max-height: 20%;
+}
