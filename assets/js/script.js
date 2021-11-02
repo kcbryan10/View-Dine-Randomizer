@@ -74,7 +74,7 @@ var renderRandomMovies = function (moviesArray) {
   }
 };
 // TODO: attach to event listener
-document.getElementById("submit").addEventListener("click",getMoviesByYear());
+userInput.addEventListener("submit",getMoviesByYear());
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -134,4 +134,4 @@ var getRandomRecipe = function (food) {
     });
 };
 // TODO: attach to event listener
-getRandomRecipe();
+document.getElementById("submit").addEventListener("click", getRandomRecipe());
