@@ -185,6 +185,7 @@ var renderFoodInfo = function (foodInfo) {
     foodIngredientsListEl.appendChild(foodIngredientItemEl);
   }
 
+  // add link for recipe
   var foodRecipeEl = document.createElement("span");
   var recipeLink = foodInfo.recipeUrl.split("/")[2];
   console.log(recipeLink);
