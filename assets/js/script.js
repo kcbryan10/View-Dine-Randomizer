@@ -50,7 +50,8 @@ var getMoviesByYear = function (year) {
 
 // render the movie options
 var renderRandomMovies = function (moviesArray) {
-  // container for the buttons
+  // clear previous search
+  movieContainerEl.innerHTML = "";
 
   // create and append the buttons
   for (var i = 0; i < moviesArray.length; i++) {
@@ -104,12 +105,14 @@ var getRandomRecipe = function (food) {
     })
     .then(function (data) {
       var numOfHits = data.hits.length;
-      var recipeButtonContainerEl = document.createElement("div");
 
       // if 5 or less hits in the response, loop through, otherwise loop 5 times
       if (numOfHits > 5) {
         numOfHits = 5;
       }
+
+      // clear previous search
+      dinnerContainerEl.innerHTML = "";
 
       // create buttons and append
       for (var i = 0; i < numOfHits; i++) {
@@ -127,7 +130,7 @@ var getRandomRecipe = function (food) {
         recipeButtonEl.innerText = recipe.label;
 
         recipesListItemEl.appendChild(recipeButtonEl);
-        dinnerContainerEl.append(recipesListItemEl);
+        dinnerContainerEl.appendChild(recipesListItemEl);
       }
     });
 };
