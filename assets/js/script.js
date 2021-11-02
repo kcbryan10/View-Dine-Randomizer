@@ -138,7 +138,7 @@ var getRandomRecipe = function (food) {
 // TODO: attach to event listener
 //getRandomRecipe();
 
-var getMovieInfo = function (movieId) {
+var getSelectedMovieInfo = function (movieId) {
   fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
     .then(function (response) {
       if (response.ok) {
@@ -198,4 +198,4 @@ var displayMovieInfo = function (movieInfo) {
   );
 };
 // TODO: attach event listener
-// getMovieInfo(293811);
+// getSelectedMovieInfo(293811);
