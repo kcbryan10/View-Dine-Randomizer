@@ -177,6 +177,8 @@ var renderFoodInfo = function (foodInfo) {
   foodImageEl.setAttribute("src", foodInfo.img);
 
   var foodIngredientsListEl = document.createElement("ul");
+
+  // loop through ingredients and add them as list items to the <ul>
   for (var i = 0; i < foodInfo.ingredientArray.length; i++) {
     var foodIngredientItemEl = document.createElement("li");
     foodIngredientItemEl.innerText = foodInfo.ingredientArray[i];
