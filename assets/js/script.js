@@ -134,18 +134,13 @@ var getRandomRecipe = function (food) {
 // TODO: attach to event listener
 getRandomRecipe();
 
-//select one of the five options
-
-//save selected option
-
 //display selected pair
-
 
 $(movieContainerEl).on("click", function () {
   var movieTitle= $(this).text();
   var createPairMovie= document.createElement("a")
     createPairMovie.setAttribute("class",
-    "waves-effect waves-light btn-small" 
+    "waves-effect waves-light btn-small movieS" 
     );
   var MoviePair = document.getElementById("movie-pair-title")
 
@@ -158,7 +153,7 @@ $(dinnerContainerEl).on("click", function () {
   
   var createPairFood= document.createElement("a")
     createPairFood.setAttribute("class",
-    "waves-effect waves-light btn-small" 
+    "waves-effect waves-light btn-small foodS" 
     );
 
   var foodPair = document.getElementById("food-pair-title")
@@ -167,6 +162,22 @@ $(dinnerContainerEl).on("click", function () {
   createPairFood.append(foodTitle)
 })
 
+
+//save selected option
+
+var pair1= document.getElementById("1");
+
 $("#save-Btn").on("click", function(){
-  console.log("pair saved")
+    $(".movieS").appendTo("#1");
+    $(".foodS").appendTo("#1");
+    localStorage.setItem("pair1", pair1.outerHTML)
+
 })
+
+//retrieve pairs
+function getPair(){
+  var setPair1= localStorage.getItem("pair1");
+  $(setPair1).appendTo(pair1);
+}
+
+getPair();
