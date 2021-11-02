@@ -133,15 +133,3 @@ var getRandomRecipe = function (food) {
 };
 // TODO: attach to event listener
 getRandomRecipe();
-
-//save generated pair on button click
-var movietitle= recipe.label;
-var recipeName= movie.title;
-var pair= [movietitle, recipeName];
-
-var savePair = function(){
-  localStorage.setItem("pair", pair);
-}
-
-
-document.getElementById("save-Btn").addEventListener("click", savePair)
