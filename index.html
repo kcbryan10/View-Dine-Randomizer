@@ -18,6 +18,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
 
+    <script src="https://developer.edamam.com/attribution/badge.js"></script>
+
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1." />
   </head>
@@ -76,24 +78,71 @@
     </div>
 
     <!-- Save Pairings Container-->
-    <div class="card-panel purple lighten-4">
-      <a class="waves-effect waves-light btn-small">Save Pairings</a>
+    <div class="card-panel purple lighten-4 center-align">
+      <button class="waves-effect waves-light btn-small " id="save-Btn">Save Pairings</button>
       <h2 class="center-align">Saved Pairings</h2>
       <div class="row">
-        <div class="col s1">1</div>
-        <div class="col s1">2</div>
-        <div class="col s1">3</div>
-        <div class="col s1">4</div>
-        <div class="col s1">5</div>
-        <div class="col s1">6</div>
-        <div class="col s1">7</div>
-        <div class="col s1">8</div>
-        <div class="col s1">9</div>
-        <div class="col s1">10</div>
-        <div class="col s1">11</div>
-        <div class="col s1">12</div>
+
+        <div class="col s1">1
+          <div id="1"></div>
+        </div>
+
+        <div class="col s1">2
+          <div id="2"></div>
+        </div>
+
+        <div class="col s1">3
+          <div id="3"></div>
+        </div>
+
+        <div class="col s1">4
+          <div id="4"></div>
+        </div>
+
+        <div class="col s1">5
+          <div id="5"></div>
+        </div>
+
+        <div class="col s1">6
+          <div id="6"></div>
+        </div>
+
+        <div class="col s1">7
+          <div id="7"></div>
+        </div>
+
+        <div class="col s1">8
+          <div id="8"></div>
+        </div>
+
+        <div class="col s1">9
+          <div id="9">asdas</div>
+        </div>
+
+        <div class="col s1">10
+          <div id="10"></div>
+        </div>
+
+        <div class="col s1">11
+          <div id="11"></div>
+        </div>
+
+        <div class="col s1">12
+          <div id="12"></div>
+        </div>
+
       </div>
     </div>
+
+    <footer class="">
+        <div class=" container center-align">
+            <div class="row">
+                <div id="edamam-badge" data-color="white"></div>
+                <img alt="TMDB" id="TMDB-logo" src="assets/images/TMDB.PNG"/>
+                <p class="black-text">This product uses the TMDB API but is not endorsed or certified by TMDB.</p>
+            </div>
+        </div>
+    </footer>
   </body>
 
   <script src="assets/js/script.js"></script>
