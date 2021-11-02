@@ -60,9 +60,9 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.setAttribute("id", "movie-button-item");
     movieListItemEl.setAttribute("class", "tab");
 
-    var movieAnchorEl = document.createElement("a");
+    var movieAnchorEl = document.createElement("button");
     movieAnchorEl.setAttribute("data-title", movie.title);
-    movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
+    movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small Movie-Title");
     movieAnchorEl.innerText = movie.title;
 
     movieListItemEl.appendChild(movieAnchorEl);
@@ -134,14 +134,39 @@ var getRandomRecipe = function (food) {
 // TODO: attach to event listener
 getRandomRecipe();
 
-//save generated pair on button click
-var movietitle= document.getElementById("1");
-var recipeName= document.getElementById("2");
-var pair= [movietitle, recipeName];
+//select one of the five options
 
-var savePair = function(){
-  localStorage.setItem("pair", pair);
-}
+//save selected option
+
+//display selected pair
 
 
-document.getElementById("save-Btn").addEventListener("click", savePair)
+$(movieContainerEl).on("click", function () {
+  var movieTitle= $(this).text();
+  var createPairMovie= document.createElement("a")
+    createPairMovie.setAttribute("class",
+    "waves-effect waves-light btn-small" 
+    );
+  var MoviePair = document.getElementById("movie-pair-title")
+
+  MoviePair.appendChild(createPairMovie);
+  createPairMovie.append(movieTitle);
+})
+
+$(dinnerContainerEl).on("click", function () {
+  var foodTitle = $(this).text();
+  
+  var createPairFood= document.createElement("a")
+    createPairFood.setAttribute("class",
+    "waves-effect waves-light btn-small" 
+    );
+
+  var foodPair = document.getElementById("food-pair-title")
+
+  foodPair.appendChild(createPairFood);
+  createPairFood.append(foodTitle)
+})
+
+$("#save-Btn").on("click", function(){
+  console.log("pair saved")
+})
