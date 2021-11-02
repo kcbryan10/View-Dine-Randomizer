@@ -13,9 +13,6 @@ var EDAMAM_RECIPES =
 
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
-  // TODO: user input verification
-  var year = userInput.value.trim();
-
   // first call to get number of pages
   fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
     .then(function (response) {
@@ -74,8 +71,6 @@ var renderRandomMovies = function (moviesArray) {
     movieContainerEl.appendChild(movieListItemEl);
   }
 };
-// TODO: attach to event listener
-submitEl.addEventListener("click",getMoviesByYear());
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -134,5 +129,12 @@ var getRandomRecipe = function (food) {
       }
     });
 };
-// TODO: attach to event listener
-submitEl.addEventListener("click", getRandomRecipe());
+
+var submitHandler = function (event) {
+  // TODO: add user input validation
+  var year = userInput.value.trim();
+  getMoviesByYear(year);
+  getRandomRecipe();
+};
+
+submitEl.addEventListener("click", submitHandler);
