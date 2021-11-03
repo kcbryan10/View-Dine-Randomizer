@@ -1,6 +1,7 @@
 // important DOM elements
-var movieOptionsContainer = document.getElementById("movie-options-list");
-var dinnerOptionsContainer = document.getElementById("dinner-options-list");
+var movieOptionsContainerEl = document.getElementById("movie-options-list");
+var dinnerOptionsContainerEl = document.getElementById("dinner-options-list");
+var submitButtonEl = document.getElementById("submit");
 
 // base URLs
 var TMDB_KEY = "api_key=28589eaa3f119e982da41302aa616aef";
@@ -56,7 +57,7 @@ var getMoviesByYear = function (year) {
 // render the movie options
 var renderRandomMovies = function (moviesArray) {
   // clear previous search
-  movieContainerEl.innerHTML = "";
+  movieOptionsContainerEl.innerHTML = "";
 
   // create and append the buttons
   for (var i = 0; i < moviesArray.length; i++) {
@@ -74,7 +75,7 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.appendChild(movieAnchorEl);
 
     // render to the DOM
-    movieOptionsContainer.appendChild(movieListItemEl);
+    movieOptionsContainerEl.appendChild(movieListItemEl);
   }
 };
 
@@ -179,7 +180,7 @@ var getRandomRecipe = function (food) {
       }
 
       // clear previous search
-      dinnerContainerEl.innerHTML = "";
+      dinnerOptionsContainerEl.innerHTML = "";
 
       // create buttons and append
       for (var i = 0; i < numOfHits; i++) {
@@ -254,7 +255,6 @@ var renderFoodInfo = function (foodInfo) {
   // add link for recipe
   var foodRecipeEl = document.createElement("span");
   var recipeLink = foodInfo.recipeUrl.split("/")[2];
-  console.log(recipeLink);
   foodRecipeEl.innerHTML =
     "Recipe instructions: <a target='_blank' href=" +
     foodInfo.recipeUrl +
@@ -288,4 +288,11 @@ var movieSelectedHandler = function (event) {
   }
   getSelectedMovieInfo(event.target.dataset.movieid);
 };
-movieOptionsContainer.addEventListener("click", movieSelectedHandler);
+
+var handleSubmit = function () {
+  getMoviesByYear();
+  getRandomRecipe();
+};
+
+submitButtonEl.addEventListener("click", handleSubmit);
+movieOptionsContainerEl.addEventListener("click", movieSelectedHandler);
