@@ -1,12 +1,20 @@
 // important DOM elements
+<<<<<<< HEAD
 var movieContainerEl = document.getElementById("movie-options-list");
 var dinnerContainerEl = document.getElementById("dinner-options-list");
 var userInput = document.getElementById("userinput");
 var submitEl = document.getElementById("submit");
+=======
+var movieOptionsContainer = document.getElementById("movie-options-list");
+var dinnerOptionsContainer = document.getElementById("dinner-options-list");
+>>>>>>> develop
 
 // base URLs
-var TMDB_DISCOVER =
-  "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef";
+var TMDB_KEY = "api_key=28589eaa3f119e982da41302aa616aef";
+
+var TMDB_DISCOVER = "https://api.themoviedb.org/3/discover/movie?" + TMDB_KEY;
+
+var TMDB_MOVIE = "https://api.themoviedb.org/3/movie/";
 
 var EDAMAM_RECIPES =
   "https://api.edamam.com/api/recipes/v2?app_id=902dbf54&app_key=9d8e41e1bea3b6670c9e1ca016fd4be4&type=public&random=true";
@@ -61,15 +69,79 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.setAttribute("class", "tab");
 
     var movieAnchorEl = document.createElement("a");
-    movieAnchorEl.setAttribute("data-title", movie.title);
+    movieAnchorEl.setAttribute("data-movieid", movie.id);
     movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
     movieAnchorEl.innerText = movie.title;
 
     movieListItemEl.appendChild(movieAnchorEl);
 
     // render to the DOM
-    movieContainerEl.appendChild(movieListItemEl);
+    movieOptionsContainer.appendChild(movieListItemEl);
   }
+};
+
+// when a user clicks on a movie title button
+var getSelectedMovieInfo = function (movieId) {
+  fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      // store genres
+      var genres = [];
+      for (var i = 0; i < data.genres.length; i++) {
+        genres.push(data.genres[i].name);
+      }
+
+      // store year
+      var year = data.release_date.split("-")[0];
+
+      // package needed info for rendering
+      var movieInfo = {
+        title: data.title,
+        genre: genres,
+        year: year,
+        overview: data.overview,
+        imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
+      };
+
+      displayMovieInfo(movieInfo);
+    });
+};
+
+var displayMovieInfo = function (movieInfo) {
+  var contentContainerEl = document.getElementById("movie-details-container");
+
+  // clear previous content
+  contentContainerEl.innerHTML = "";
+
+  var movieTitleEl = document.createElement("h3");
+  movieTitleEl.innerText = movieInfo.title;
+
+  var movieYearEl = document.createElement("span");
+  movieYearEl.innerText = movieInfo.year;
+
+  var movieGenreEl = document.createElement("span");
+  movieGenreEl.innerText = movieInfo.genre.map(function (genre) {
+    return " " + genre;
+  });
+
+  var movieImageEl = document.createElement("img");
+  movieImageEl.setAttribute("src", movieInfo.imgSrc);
+
+  var movieOverviewEl = document.createElement("p");
+  movieOverviewEl.innerText = movieInfo.overview;
+
+  contentContainerEl.append(
+    movieTitleEl,
+    movieYearEl,
+    movieGenreEl,
+    movieImageEl,
+    movieOverviewEl
+  );
 };
 
 // fetch random recipe
@@ -125,10 +197,11 @@ var getRandomRecipe = function (food) {
         recipeButtonEl.innerText = recipe.label;
 
         recipesListItemEl.appendChild(recipeButtonEl);
-        dinnerContainerEl.append(recipesListItemEl);
+        dinnerOptionsContainer.append(recipesListItemEl);
       }
     });
 };
+<<<<<<< HEAD
 
 var submitHandler = function (event) {
   // TODO: add user input validation
@@ -138,3 +211,16 @@ var submitHandler = function (event) {
 };
 
 submitEl.addEventListener("click", submitHandler);
+=======
+// TODO: attach to event listener
+//getRandomRecipe();
+
+var movieSelectedHandler = function (event) {
+  // check if it is a valid click
+  if (!event.target.dataset.movieid) {
+    return;
+  }
+  getSelectedMovieInfo(event.target.dataset.movieid);
+};
+movieOptionsContainer.addEventListener("click", movieSelectedHandler);
+>>>>>>> develop
