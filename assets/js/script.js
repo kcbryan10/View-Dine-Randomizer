@@ -355,3 +355,4 @@ $(document).ready(function () {
 
 submitButtonEl.addEventListener("click", handleSubmit);
 movieOptionsContainerEl.addEventListener("click", movieSelectedHandler);
+
