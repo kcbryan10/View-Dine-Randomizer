@@ -1,13 +1,6 @@
 // important DOM elements
-<<<<<<< HEAD
-var movieContainerEl = document.getElementById("movie-options-list");
-var dinnerContainerEl = document.getElementById("dinner-options-list");
-var userInput = document.getElementById("userinput");
-var submitEl = document.getElementById("submit");
-=======
 var movieOptionsContainer = document.getElementById("movie-options-list");
 var dinnerOptionsContainer = document.getElementById("dinner-options-list");
->>>>>>> develop
 
 // base URLs
 var TMDB_KEY = "api_key=28589eaa3f119e982da41302aa616aef";
