@@ -1,13 +1,20 @@
 // important DOM elements
-var movieContainerEl = document.getElementById("movie-options-list");
-var dinnerContainerEl = document.getElementById("dinner-options-list");
+var movieOptionsContainer = document.getElementById("movie-options-list");
+var dinnerOptionsContainer = document.getElementById("dinner-options-list");
 
 // base URLs
-var TMDB_DISCOVER =
-  "https://api.themoviedb.org/3/discover/movie?api_key=28589eaa3f119e982da41302aa616aef";
+var TMDB_KEY = "api_key=28589eaa3f119e982da41302aa616aef";
 
-var EDAMAM_RECIPES =
-  "https://api.edamam.com/api/recipes/v2?app_id=902dbf54&app_key=9d8e41e1bea3b6670c9e1ca016fd4be4&type=public&random=true";
+var TMDB_DISCOVER = "https://api.themoviedb.org/3/discover/movie?" + TMDB_KEY;
+
+var TMDB_MOVIE = "https://api.themoviedb.org/3/movie/";
+
+var EDAMAM_KEY = "app_key=9d8e41e1bea3b6670c9e1ca016fd4be4";
+
+var EDAMAM_RANDOM =
+  "https://api.edamam.com/api/recipes/v2?app_id=902dbf54&" +
+  EDAMAM_KEY +
+  "&type=public&random=true";
 
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
@@ -62,18 +69,82 @@ var renderRandomMovies = function (moviesArray) {
     movieListItemEl.setAttribute("class", "tab");
 
     var movieAnchorEl = document.createElement("a");
-    movieAnchorEl.setAttribute("data-title", movie.title);
+    movieAnchorEl.setAttribute("data-movieid", movie.id);
     movieAnchorEl.setAttribute("class", "waves-effect waves-light btn-small");
     movieAnchorEl.innerText = movie.title;
 
     movieListItemEl.appendChild(movieAnchorEl);
 
     // render to the DOM
-    movieContainerEl.appendChild(movieListItemEl);
+    movieOptionsContainer.appendChild(movieListItemEl);
   }
 };
 // TODO: attach to event listener
 getMoviesByYear(2000);
+
+// when a user clicks on a movie title button
+var getSelectedMovieInfo = function (movieId) {
+  fetch(TMDB_MOVIE + movieId + "?" + TMDB_KEY)
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      console.log(data);
+      // store genres
+      var genres = [];
+      for (var i = 0; i < data.genres.length; i++) {
+        genres.push(data.genres[i].name);
+      }
+
+      // store year
+      var year = data.release_date.split("-")[0];
+
+      // package needed info for rendering
+      var movieInfo = {
+        title: data.title,
+        genre: genres,
+        year: year,
+        overview: data.overview,
+        imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
+      };
+
+      displayMovieInfo(movieInfo);
+    });
+};
+
+var displayMovieInfo = function (movieInfo) {
+  var contentContainerEl = document.getElementById("movie-details-container");
+
+  // clear previous content
+  contentContainerEl.innerHTML = "";
+
+  var movieTitleEl = document.createElement("h3");
+  movieTitleEl.innerText = movieInfo.title;
+
+  var movieYearEl = document.createElement("span");
+  movieYearEl.innerText = movieInfo.year;
+
+  var movieGenreEl = document.createElement("span");
+  movieGenreEl.innerText = movieInfo.genre.map(function (genre) {
+    return " " + genre;
+  });
+
+  var movieImageEl = document.createElement("img");
+  movieImageEl.setAttribute("src", movieInfo.imgSrc);
+
+  var movieOverviewEl = document.createElement("p");
+  movieOverviewEl.innerText = movieInfo.overview;
+
+  contentContainerEl.append(
+    movieTitleEl,
+    movieYearEl,
+    movieGenreEl,
+    movieImageEl,
+    movieOverviewEl
+  );
+};
 
 // fetch random recipe
 var getRandomRecipe = function (food) {
@@ -99,7 +170,7 @@ var getRandomRecipe = function (food) {
   if (!food) {
     food = foodsArray[Math.floor(Math.random() * foodsArray.length)];
   }
-  fetch(EDAMAM_RECIPES + "&q=" + food)
+  fetch(EDAMAM_RANDOM + "&q=" + food)
     .then(function (response) {
       return response.json();
     })
@@ -117,7 +188,6 @@ var getRandomRecipe = function (food) {
       // create buttons and append
       for (var i = 0; i < numOfHits; i++) {
         var recipe = data.hits[i].recipe;
-
         var recipesListItemEl = document.createElement("li");
         recipesListItemEl.setAttribute("class", "tab");
 
@@ -126,13 +196,100 @@ var getRandomRecipe = function (food) {
           "class",
           "waves-effect waves-light btn-small"
         );
-        recipeButtonEl.setAttribute("data-label", recipe.label);
+        var foodId = recipe.uri.split("#")[1];
+        recipeButtonEl.setAttribute("data-foodid", foodId);
+
         recipeButtonEl.innerText = recipe.label;
 
         recipesListItemEl.appendChild(recipeButtonEl);
-        dinnerContainerEl.appendChild(recipesListItemEl);
+        dinnerOptionsContainerEl.append(recipesListItemEl);
       }
     });
 };
 // TODO: attach to event listener
 getRandomRecipe();
+
+var getSelectedFoodInfo = function (foodId) {
+  fetch(
+    "https://api.edamam.com/api/recipes/v2/" +
+      foodId +
+      "?type=public&app_id=902dbf54&" +
+      EDAMAM_KEY
+  )
+    .then(function (response) {
+      if (response.ok) {
+        return response.json();
+      }
+    })
+    .then(function (data) {
+      // package needed data
+      var foodInfo = {
+        name: data.recipe.label,
+        ingredientArray: data.recipe.ingredientLines,
+        img: data.recipe.image,
+        recipeUrl: data.recipe.url,
+      };
+
+      renderFoodInfo(foodInfo);
+    });
+};
+
+var renderFoodInfo = function (foodInfo) {
+  var contentContainerEl = document.getElementById("food-details-container");
+
+  // clear previous selection
+  contentContainerEl.innerHTML = "";
+
+  var foodNameEl = document.createElement("h3");
+  foodNameEl.innerText = foodInfo.name;
+
+  var foodImageEl = document.createElement("img");
+  foodImageEl.setAttribute("src", foodInfo.img);
+
+  var foodIngredientsListEl = document.createElement("ul");
+
+  // loop through ingredients and add them as list items to the <ul>
+  for (var i = 0; i < foodInfo.ingredientArray.length; i++) {
+    var foodIngredientItemEl = document.createElement("li");
+    foodIngredientItemEl.innerText = foodInfo.ingredientArray[i];
+    foodIngredientsListEl.appendChild(foodIngredientItemEl);
+  }
+
+  // add link for recipe
+  var foodRecipeEl = document.createElement("span");
+  var recipeLink = foodInfo.recipeUrl.split("/")[2];
+  console.log(recipeLink);
+  foodRecipeEl.innerHTML =
+    "Recipe instructions: <a target='_blank' href=" +
+    foodInfo.recipeUrl +
+    ">" +
+    recipeLink +
+    "</a>";
+
+  contentContainerEl.append(
+    foodNameEl,
+    foodImageEl,
+    foodIngredientsListEl,
+    foodRecipeEl
+  );
+};
+
+var foodSelectedHandler = function (event) {
+  // check if it is a valid click
+  if (!event.target.dataset.foodid) {
+    return;
+  }
+  getSelectedFoodInfo(event.target.dataset.foodid);
+};
+
+dinnerOptionsContainerEl.addEventListener("click", foodSelectedHandler);
+//getRandomRecipe();
+
+var movieSelectedHandler = function (event) {
+  // check if it is a valid click
+  if (!event.target.dataset.movieid) {
+    return;
+  }
+  getSelectedMovieInfo(event.target.dataset.movieid);
+};
+movieOptionsContainer.addEventListener("click", movieSelectedHandler);
