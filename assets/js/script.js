@@ -64,7 +64,6 @@ var renderRandomMovies = function (moviesArray) {
     var movie = moviesArray[i];
 
     var movieListItemEl = document.createElement("li");
-    movieListItemEl.setAttribute("id", "movie-button-item");
     movieListItemEl.setAttribute("class", "tab");
 
     var movieAnchorEl = document.createElement("a");
@@ -203,8 +202,6 @@ var getRandomRecipe = function (food) {
       }
     });
 };
-// TODO: attach to event listener
-getRandomRecipe();
 
 var getSelectedFoodInfo = function (foodId) {
   fetch(
