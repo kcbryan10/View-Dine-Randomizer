@@ -18,8 +18,6 @@ var EDAMAM_RANDOM =
 
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
-  // TODO: user input verification
-
   // first call to get number of pages
   fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
     .then(function (response) {
@@ -78,8 +76,6 @@ var renderRandomMovies = function (moviesArray) {
     movieOptionsContainer.appendChild(movieListItemEl);
   }
 };
-// TODO: attach to event listener
-getMoviesByYear(2000);
 
 // when a user clicks on a movie title button
 var getSelectedMovieInfo = function (movieId) {
