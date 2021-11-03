@@ -194,17 +194,6 @@ var getRandomRecipe = function (food) {
       }
     });
 };
-<<<<<<< HEAD
-
-var submitHandler = function (event) {
-  // TODO: add user input validation
-  var year = userInput.value.trim();
-  getMoviesByYear(year);
-  getRandomRecipe();
-};
-
-submitEl.addEventListener("click", submitHandler);
-=======
 // TODO: attach to event listener
 //getRandomRecipe();
 
@@ -216,4 +205,3 @@ var movieSelectedHandler = function (event) {
   getSelectedMovieInfo(event.target.dataset.movieid);
 };
 movieOptionsContainer.addEventListener("click", movieSelectedHandler);
->>>>>>> develop
