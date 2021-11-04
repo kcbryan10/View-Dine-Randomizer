@@ -1,0 +1,47 @@
+::placeholder {
+  color: white;
+  font-style: normal;
+  opacity: 1;
+  /* FIREFOX */
+}
+
+.invalid ::placeholder {
+  color: red;
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: red;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: red;
+}
+
+.options-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.options-list li {
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+#TMDB-logo {
+  max-width: 50%;
+  max-height: 50%;
+}
+
+.savedObj {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+img {
+  max-width: 10%;
+  max-height: 10%;
+}

@@ -1,33 +1,137 @@
 <!DOCTYPE html>
-<html lang="en-us"></html>
+<html>
+  <title>View Dine Randomizer</title>
 
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container"> 
-      <header>
-          <h1>View Dine Randomizer</h1>
-          <form>
-              <label for="myear"> Movie Year:
-              </label><br>
-              <input type="text" id="myear"
-              year="myear"><br>
-              <input type="button" id="bt" value="Save date to file" onclick="saveFile()" />
-          </form>
+  <head>
+    <div class="card-panel blue black-text center-align">
+      <h2>View Dine Randomizer</h2>
     </div>
-    <button id ="clickme">Randomize</button>
-    <div id="displayme"></div>
- <div class="hero"></div>
- <div class="content">
-    <h2>Your Movie</h2>
+    <link rel="stylesheet" href="./assets/css/styles.css" />
+    <!--Import Google Icon Font-->
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <!--Import materialize.css-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
 
-    <h2>Dinner Options</h2>
+    <script src="https://developer.edamam.com/attribution/badge.js"></script>
 
-    <h3>Save Pairings</h3>
- </div> 
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1." />
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col s12">
+        <div class="card purple lighten-3">
+          <div class="card-content white-text">
+            <span class="card-title">Movie Year</span>
+            <p>Enter the year you would like to find a movie from! (1890 or later)</p>
+          </div>
+          <div class="card-action">
+            <input id="userinput" type="number" placeholder="Year" />
+            <a class="waves-effect waves-light btn-small" id="submit">submit</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Container -->
+    <!-- MOVIE -->
     
-  
- </div>
-</body>
+    
+      <!-- Movie options rendered from JS -->
+    </ul>
+    <div class="card largest-panel red lighten-2">
+      <h2>Movie options: <ul id="movie-options-list" class="options-list"></h2>
+      <!-- Movie details rendered from JS -->
+      <div class="card small-content orange lighten-2" id="movie-details-container">
+        <!-- Image and Title from JS -->
+      
+      <div class="card-tabs">
+        <ul class="tabs tabs-fixed-width">
+          <!-- template for JS
+        <li class="tab"><a href="#">more info tab</a></li>
+        --></ul>
+      </div>
+    </div>
+    </div>
+
+    <!-- FOOD -->
+    
+    
+      <!-- Dinner options rendered from JS -->
+    </ul>
+    <div class="card largest-panel yellow lighten-2">
+      <h2>Food options: <ul id="dinner-options-list" class="options-list"></ul></h2>
+      <!-- Dinner details rendered from JS -->
+      <div class="card-content purple lighten-4" id="food-details-container">
+        <!-- Image and Label from JS-->
+      </div>
+      <div class="card-tabs"></div>
+      <ul class="tabs tabs-fixed-width">
+        <!-- template for JS
+        <li class="tab"><a href="#">more info tab</a></li>
+        -->
+      </ul>
+    </div>
+
+
+        <!--Show selected movie/food before save-->
+        <div class="row">
+          <div class="col s12">
+            <div class="card purple lighten-3">
+              <div class="card-content white-text selected-pair">
+                <span class="card-title">Selected Items</span>
+                <button class="waves-effect waves-light btn-small" id="save-Btn">Save As Favorites</button>
+              </div>
+              <div id="pair">
+                <div class="left-align" id="movie-pair-title"></div>
+                <div class="left-align" id="food-pair-title"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
+    <!-- Save Pairings Container-->
+    <div class="card-panel purple lighten-4 center-align">
+      <h2 class="center-align">Saved Favorites</h2>
+
+        <div class="center-align">
+          <h5>Movie Saved</h3>
+            <div class="center-align savedObj container" id="1"></div>
+        </div>
+
+        <div class="center-align">
+          <h5>Food Saved</h3>
+              <div class="center-align savedObj container" id="2"></div>
+        </div>
+
+    </div>
+
+    <footer>
+      <div class="container center-align">
+        <div class="row">
+          <div id="edamam-badge" data-color="white"></div>
+          <img alt="TMDB" id="TMDB-logo" src="assets/images/TMDB.PNG" />
+          <p class="black-text">
+            This product uses the TMDB API but is not endorsed or certified by
+            TMDB.
+          </p>
+        </div>
+      </div>
+    </footer>
+
+  </body>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="assets/js/script.js"></script>
+</html>
+© 2021 GitHub, Inc.
+Terms
+Privacy
+Security
