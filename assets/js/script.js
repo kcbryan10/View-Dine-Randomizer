@@ -19,36 +19,51 @@ var EDAMAM_RANDOM =
 // fetch random selection of five movies
 var getMoviesByYear = function (year) {
   // first call to get number of pages
-  fetch(TMDB_DISCOVER + "&include_adult=false&region=US&year=" + year)
+  fetch(
+    TMDB_DISCOVER +
+      "&include_adult=false&region=US&primary_release_year=" +
+      year
+  )
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      // loop for second call to randomize page selection
       var moviesArray = [];
-      for (var i = 0; i < 5; i++) {
-        var page = Math.floor(Math.random() * data.total_pages + 1);
-        fetch(
-          TMDB_DISCOVER +
-            "&include_adult=false&region=US&year=" +
-            year +
-            "&page=" +
-            page
-        )
-          .then(function (response) {
-            return response.json();
-          })
-          .then(function (data) {
-            // use a random index to pull a single movie
-            var randomIndex = Math.floor(Math.random() * data.results.length);
-            // push movie into array
-            moviesArray.push(data.results[randomIndex]);
-          })
-          .then(function () {
-            if (moviesArray.length === 5) {
-              renderRandomMovies(moviesArray);
-            }
-          });
+
+      // if more than one page of results, randomize
+      if (data.total_pages > 1) {
+        // loop for second call to randomize page selection
+        for (var i = 0; i < 5; i++) {
+          var page = Math.floor(Math.random() * data.total_pages + 1);
+          fetch(
+            TMDB_DISCOVER +
+              "&include_adult=false&region=US&primary_release_year=" +
+              year +
+              "&page=" +
+              page
+          )
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              // use a random index to pull a single movie
+              var randomIndex = Math.floor(Math.random() * data.results.length);
+              // push movie into array
+              moviesArray.push(data.results[randomIndex]);
+            })
+            .then(function () {
+              if (moviesArray.length === 5) {
+                renderRandomMovies(moviesArray);
+              }
+            });
+        }
+      } else {
+        var numOfResultsOrFive =
+          data.total_results >= 5 ? 5 : data.total_results;
+        for (var i = 0; i < numOfResultsOrFive; i++) {
+          moviesArray.push(data.results[i]);
+        }
+        renderRandomMovies(moviesArray);
       }
     });
 };
@@ -291,40 +306,36 @@ var handleSubmit = function () {
 };
 
 $(document).ready(function () {
-
   //display selected pair
   $(movieOptionsContainerEl).on("click", "a", function () {
     var movieTitle = $(this).text();
-    var createPairMovie = document.createElement("a")
-    createPairMovie.setAttribute("class",
+    var createPairMovie = document.createElement("a");
+    createPairMovie.setAttribute(
+      "class",
       "waves-effect waves-light btn-small movieS"
     );
 
-    var MoviePair = document.getElementById("movie-pair-title")
+    var MoviePair = document.getElementById("movie-pair-title");
 
     MoviePair.appendChild(createPairMovie);
     createPairMovie.append(movieTitle);
-
-  })
-
+  });
 
   $(dinnerOptionsContainerEl).on("click", "a", function () {
-
     var foodTitle = $(this).text();
 
-    var createPairFood = document.createElement("a")
+    var createPairFood = document.createElement("a");
 
     createPairFood.setAttribute("class",
       "waves-effect waves-light btn-small foodS" 
     );
 
-    var foodPair = document.getElementById("food-pair-title")
+    var foodPair = document.getElementById("food-pair-title");
 
     foodPair.appendChild(createPairFood);
 
-    createPairFood.append(foodTitle)
-  })
-
+    createPairFood.append(foodTitle);
+  });
 
   //remove unwanted elements from selected pair
   $("#pair").on("click", "a", function(){
@@ -335,31 +346,27 @@ $(document).ready(function () {
 
   //save selected option
 
-
-  var MoviePair= document.getElementById("1");
+  var MoviePair = document.getElementById("1");
   var FoodPair = document.getElementById("2");
 
   $("#save-Btn").on("click", function () {
-    var createPairBox = document.createElement("div")
+    var createPairBox = document.createElement("div");
     $(".movieS").appendTo("#1");
     $(".foodS").appendTo("#2");
-    localStorage.setItem("Movie", MoviePair.outerHTML)
-    localStorage.setItem("Food", FoodPair.outerHTML)
-
-  })
+    localStorage.setItem("Movie", MoviePair.outerHTML);
+    localStorage.setItem("Food", FoodPair.outerHTML);
+  });
 
   //retrieve pairs
   function getPair() {
     var setMovie = localStorage.getItem("Movie");
     $(setMovie).appendTo(MoviePair);
     var setFood = localStorage.getItem("Food");
-    $(setFood).appendTo(FoodPair)
+    $(setFood).appendTo(FoodPair);
   }
-
 
   getPair();
 });
 
 submitButtonEl.addEventListener("click", handleSubmit);
 movieOptionsContainerEl.addEventListener("click", movieSelectedHandler);
-
