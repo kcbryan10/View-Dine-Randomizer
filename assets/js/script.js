@@ -101,7 +101,6 @@ var getSelectedMovieInfo = function (movieId) {
       }
     })
     .then(function (data) {
-      console.log(data);
       // store genres
       var genres = [];
       for (var i = 0; i < data.genres.length; i++) {
@@ -119,6 +118,11 @@ var getSelectedMovieInfo = function (movieId) {
         overview: data.overview,
         imgSrc: "https://image.tmdb.org/t/p/original" + data.poster_path,
       };
+
+      // in case of no image
+      if (!data.poster_path) {
+        movieInfo.imgSrc = null;
+      }
 
       displayMovieInfo(movieInfo);
     });
@@ -141,8 +145,13 @@ var displayMovieInfo = function (movieInfo) {
     return " " + genre;
   });
 
-  var movieImageEl = document.createElement("img");
-  movieImageEl.setAttribute("src", movieInfo.imgSrc);
+  if (movieInfo.imgSrc !== null) {
+    var movieImageEl = document.createElement("img");
+    movieImageEl.setAttribute("src", movieInfo.imgSrc);
+  } else {
+    var movieImageEl = document.createElement("p");
+    movieImageEl.innerText = "(no image found)";
+  }
 
   var movieOverviewEl = document.createElement("p");
   movieOverviewEl.innerText = movieInfo.overview;
