@@ -286,10 +286,24 @@ var movieSelectedHandler = function (event) {
 };
 
 var handleSubmit = function () {
-  var inputEL = document.getElementById("userinput");
+  var inputEl = document.getElementById("userinput");
+  var input = inputEl.value;
+  var currentYear = new Date().getFullYear();
 
-  getMoviesByYear();
+  // if user input is before 1890 or after now
+  if (input < 1890 || input > currentYear) {
+    inputEl.value = null;
+    inputEl.classList.add("invalid");
+    inputEl.placeholder = "Enter year between 1890 to " + currentYear;
+    return;
+  }
+
+  getMoviesByYear(input);
   getRandomRecipe();
+
+  inputEl.value = null;
+  inputEl.placeholder = "Year";
+  inputEl.classList.remove("invalid");
 };
 
 $(document).ready(function () {
