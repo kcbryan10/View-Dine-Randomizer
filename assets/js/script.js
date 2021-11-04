@@ -326,9 +326,8 @@ $(document).ready(function () {
 
     var createPairFood = document.createElement("a");
 
-    createPairFood.setAttribute(
-      "class",
-      "waves-effect waves-light btn-small foodS"
+    createPairFood.setAttribute("class",
+      "waves-effect waves-light btn-small foodS" 
     );
 
     var foodPair = document.getElementById("food-pair-title");
@@ -337,6 +336,13 @@ $(document).ready(function () {
 
     createPairFood.append(foodTitle);
   });
+
+  //remove unwanted elements from selected pair
+  $("#pair").on("click", "a", function(){
+      var element= $(this)
+      element.remove();
+  })
+
 
   //save selected option
 
