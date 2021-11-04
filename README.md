@@ -23,3 +23,10 @@ Deployed App: [View and Dine Randomizer](https://kcbryan10.github.io/View-Dine-R
 
 Movies: [TMDB API](https://developers.themoviedb.org/3/getting-started/introduction)  
 Foods: [Edamam API](https://developer.edamam.com)
+
+## Contributors
+
+[Bryan](https://github.com/kcbryan10)  
+[Justin](https://github.com/Justin-Eicher)  
+[Mike](https://github.com/MikeTysver65)  
+[Daniel](https://github.com/HighDynamics)
