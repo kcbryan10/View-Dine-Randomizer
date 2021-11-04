@@ -1,4 +1,3 @@
-// important DOM elements
 var movieOptionsContainerEl = document.getElementById("movie-options-list");
 var dinnerOptionsContainerEl = document.getElementById("dinner-options-list");
 var submitButtonEl = document.getElementById("submit");
@@ -291,5 +290,69 @@ var handleSubmit = function () {
   getRandomRecipe();
 };
 
+$(document).ready(function () {
+
+  //display selected pair
+  $(movieOptionsContainerEl).on("click", "a", function () {
+    var movieTitle = $(this).text();
+    var createPairMovie = document.createElement("a")
+    createPairMovie.setAttribute("class",
+      "waves-effect waves-light btn-small movieS"
+    );
+
+    var MoviePair = document.getElementById("movie-pair-title")
+
+    MoviePair.appendChild(createPairMovie);
+    createPairMovie.append(movieTitle);
+
+  })
+
+
+  $(dinnerOptionsContainerEl).on("click", "a", function () {
+
+    var foodTitle = $(this).text();
+
+    var createPairFood = document.createElement("a")
+
+    createPairFood.setAttribute("class",
+      "waves-effect waves-light btn-small foodS"
+    );
+
+    var foodPair = document.getElementById("food-pair-title")
+
+    foodPair.appendChild(createPairFood);
+
+    createPairFood.append(foodTitle)
+  })
+
+
+  //save selected option
+
+
+  var MoviePair= document.getElementById("1");
+  var FoodPair = document.getElementById("2");
+
+  $("#save-Btn").on("click", function () {
+    var createPairBox = document.createElement("div")
+    $(".movieS").appendTo("#1");
+    $(".foodS").appendTo("#2");
+    localStorage.setItem("Movie", MoviePair.outerHTML)
+    localStorage.setItem("Food", FoodPair.outerHTML)
+
+  })
+
+  //retrieve pairs
+  function getPair() {
+    var setMovie = localStorage.getItem("Movie");
+    $(setMovie).appendTo(MoviePair);
+    var setFood = localStorage.getItem("Food");
+    $(setFood).appendTo(FoodPair)
+  }
+
+
+  getPair();
+});
+
 submitButtonEl.addEventListener("click", handleSubmit);
 movieOptionsContainerEl.addEventListener("click", movieSelectedHandler);
+
