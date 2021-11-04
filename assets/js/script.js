@@ -331,6 +331,9 @@ $(document).ready(function () {
       "waves-effect waves-light btn-small movieS"
     );
 
+    // add data to element
+    createPairMovie.setAttribute("data-movieid", $(this).data("movieid"));
+
     var MoviePair = document.getElementById("movie-pair-title");
 
     MoviePair.appendChild(createPairMovie);
@@ -346,6 +349,9 @@ $(document).ready(function () {
       "class",
       "waves-effect waves-light btn-small foodS"
     );
+
+    // add data to element
+    createPairFood.setAttribute("data-foodid", $(this).data("foodid"));
 
     var foodPair = document.getElementById("food-pair-title");
 
@@ -382,6 +388,15 @@ $(document).ready(function () {
   }
 
   getPair();
+});
+
+// show data when clicking on favorites
+$("#1").on("click", "a", function () {
+  getSelectedMovieInfo($(this).data("movieid"));
+});
+
+$("#2").on("click", "a", function () {
+  getSelectedFoodInfo($(this).data("foodid"));
 });
 
 submitButtonEl.addEventListener("click", handleSubmit);
