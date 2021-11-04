@@ -286,73 +286,68 @@ var movieSelectedHandler = function (event) {
 };
 
 var handleSubmit = function () {
+  var inputEL = document.getElementById("userinput");
+
   getMoviesByYear();
   getRandomRecipe();
 };
 
 $(document).ready(function () {
-
   //display selected pair
   $(movieOptionsContainerEl).on("click", "a", function () {
     var movieTitle = $(this).text();
-    var createPairMovie = document.createElement("a")
-    createPairMovie.setAttribute("class",
+    var createPairMovie = document.createElement("a");
+    createPairMovie.setAttribute(
+      "class",
       "waves-effect waves-light btn-small movieS"
     );
 
-    var MoviePair = document.getElementById("movie-pair-title")
+    var MoviePair = document.getElementById("movie-pair-title");
 
     MoviePair.appendChild(createPairMovie);
     createPairMovie.append(movieTitle);
-
-  })
-
+  });
 
   $(dinnerOptionsContainerEl).on("click", "a", function () {
-
     var foodTitle = $(this).text();
 
-    var createPairFood = document.createElement("a")
+    var createPairFood = document.createElement("a");
 
-    createPairFood.setAttribute("class",
+    createPairFood.setAttribute(
+      "class",
       "waves-effect waves-light btn-small foodS"
     );
 
-    var foodPair = document.getElementById("food-pair-title")
+    var foodPair = document.getElementById("food-pair-title");
 
     foodPair.appendChild(createPairFood);
 
-    createPairFood.append(foodTitle)
-  })
-
+    createPairFood.append(foodTitle);
+  });
 
   //save selected option
 
-
-  var MoviePair= document.getElementById("1");
+  var MoviePair = document.getElementById("1");
   var FoodPair = document.getElementById("2");
 
   $("#save-Btn").on("click", function () {
-    var createPairBox = document.createElement("div")
+    var createPairBox = document.createElement("div");
     $(".movieS").appendTo("#1");
     $(".foodS").appendTo("#2");
-    localStorage.setItem("Movie", MoviePair.outerHTML)
-    localStorage.setItem("Food", FoodPair.outerHTML)
-
-  })
+    localStorage.setItem("Movie", MoviePair.outerHTML);
+    localStorage.setItem("Food", FoodPair.outerHTML);
+  });
 
   //retrieve pairs
   function getPair() {
     var setMovie = localStorage.getItem("Movie");
     $(setMovie).appendTo(MoviePair);
     var setFood = localStorage.getItem("Food");
-    $(setFood).appendTo(FoodPair)
+    $(setFood).appendTo(FoodPair);
   }
-
 
   getPair();
 });
 
 submitButtonEl.addEventListener("click", handleSubmit);
 movieOptionsContainerEl.addEventListener("click", movieSelectedHandler);
-
