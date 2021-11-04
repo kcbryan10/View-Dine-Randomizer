@@ -301,8 +301,24 @@ var movieSelectedHandler = function (event) {
 };
 
 var handleSubmit = function () {
-  getMoviesByYear();
+  var inputEl = document.getElementById("userinput");
+  var input = inputEl.value;
+  var currentYear = new Date().getFullYear();
+
+  // if user input is before 1890 or after now
+  if (input < 1890 || input > currentYear) {
+    inputEl.value = null;
+    inputEl.classList.add("invalid");
+    inputEl.placeholder = "Enter year between 1890 to " + currentYear;
+    return;
+  }
+
+  getMoviesByYear(input);
   getRandomRecipe();
+
+  inputEl.value = null;
+  inputEl.placeholder = "Year";
+  inputEl.classList.remove("invalid");
 };
 
 $(document).ready(function () {
@@ -326,8 +342,9 @@ $(document).ready(function () {
 
     var createPairFood = document.createElement("a");
 
-    createPairFood.setAttribute("class",
-      "waves-effect waves-light btn-small foodS" 
+    createPairFood.setAttribute(
+      "class",
+      "waves-effect waves-light btn-small foodS"
     );
 
     var foodPair = document.getElementById("food-pair-title");
@@ -338,11 +355,10 @@ $(document).ready(function () {
   });
 
   //remove unwanted elements from selected pair
-  $("#pair").on("click", "a", function(){
-      var element= $(this)
-      element.remove();
-  })
-
+  $("#pair").on("click", "a", function () {
+    var element = $(this);
+    element.remove();
+  });
 
   //save selected option
 
